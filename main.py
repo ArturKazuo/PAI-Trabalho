@@ -104,8 +104,42 @@ def delete_files_in_directory(directory_path):
 
 def createSubImages(line, img, imgCount):   #usado para criar subimagens e armazená-las
     roi_x, roi_y, roi_width, roi_height = int(line[5]), int(line[6]), 100, 100  #pega os dados do nucleo
-    roi = img[roi_y-50:roi_y+50, roi_x-50:roi_x+50]                             #cortar a imagem de um nucleo especifico
+    roi = []
+
+    h, w, c = img.shape
+    
+    if(roi_x >= 50 
+       and roi_x <= w 
+       and roi_y >= 50 
+       and roi_y <= h
+       ):
+        roi = img[roi_y-50:roi_y+50, roi_x-50:roi_x+50]                             #cortar a imagem de um nucleo especifico
+
+    elif(roi_x < 50 and roi_y < 50):
+        roi = img[0:roi_y+50, 0:roi_x+50] 
+
+    elif(roi_x < 50):
+        roi = img[roi_y-50:roi_y+50, 0:roi_x+50] 
+
+    elif(roi_x > w):
+        return
+    
+    elif(roi_y < 50):
+        roi = img[0:roi_y+50, roi_x-roi_x:roi_x+50] 
+
+    elif(roi_y > h):
+        return
+    
+    # print('\nstart\n')
     # print(roi)
+    # print(roi_x)
+    # print(roi_y)
+    # if(len(roi) == 0):
+    #     plt.subplot(1, 2, 1)
+    #     plt.imshow(img)
+    #     plt.title("Image with ROI")
+    #     plt.show()
+    # print('\nfinish\n')
 
     # cv2.rectangle(img, (roi_x-50, roi_y-50), (roi_x + 50, roi_y + 50), (0, 255, 0), 2)
 
@@ -149,6 +183,44 @@ def createSubImages(line, img, imgCount):   #usado para criar subimagens e armaz
 
 def preProcess():
 
+    directory = "./classes"
+
+    # cria os diretorios para armazenamento das classes
+    if not os.path.exists(directory):
+        # Create the directory
+        os.makedirs(directory)
+        print("Directory created successfully!")
+
+        classes = [
+            [], #Negative
+            [], #ASCUS
+            [], #ASCH
+            [], #LSIL
+            [], #HSIL
+            []  #SCC
+        ]
+
+        directory1 = "./classes/Negative"
+        directory2 = "./classes/ASCUS"
+        directory3 = "./classes/ASCH"
+        directory4 = "./classes/LSIL"
+        directory5 = "./classes/HSIL"
+        directory6 = "./classes/SCC"
+
+        if not os.path.exists(directory1):
+            os.makedirs(directory1)
+        if not os.path.exists(directory2):
+            os.makedirs(directory2)
+        if not os.path.exists(directory3):
+            os.makedirs(directory3)
+        if not os.path.exists(directory4):
+            os.makedirs(directory4)
+        if not os.path.exists(directory5):
+            os.makedirs(directory5)
+        if not os.path.exists(directory6):
+            os.makedirs(directory6)
+
+
     #deleta todas as imagens para testar o proprocessamento corretamente, vai ser retirado para a entrega
     delete_files_in_directory('./classes/ASCH')
     delete_files_in_directory('./classes/ASCUS')
@@ -188,6 +260,7 @@ def preProcess():
             imgCount += 1
             createSubImages(line, img, imgCount)
         
+    print("\n\n\nCHEGOU NO FINAL\n\n\n")
 
         
 
