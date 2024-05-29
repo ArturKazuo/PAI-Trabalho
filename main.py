@@ -8,7 +8,7 @@ import os.path
 import os
 import matplotlib.pyplot as plt
 
-from generateHistogramHSV import gerarHistograma
+from generateHistogramHSV import gerarHistogramaHsv
 from preProcess import preProcess
 from preProcess import delete_files_in_directory
 
@@ -106,7 +106,7 @@ buttonOpenImageWindow.pack(pady=10)
 buttonOpenImageWindowBlackWhite = tk.Button(janela, text="Selecionar imagem em tons de cinza para visualizar", command=open_file_black_white)
 buttonOpenImageWindowBlackWhite.pack(pady=10)
 
-buttonOpenHistogram = tk.Button(janela, text="Selecionar imagem para gerar o histograma", command=gerarHistograma)
+buttonOpenHistogram = tk.Button(janela, text="Selecionar imagem para gerar o histograma", command=gerarHistogramaHsv)
 buttonOpenHistogram.pack(pady=10)
 
 # Inicia o loop principal do Tkinter

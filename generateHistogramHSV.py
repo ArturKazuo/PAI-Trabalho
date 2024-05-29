@@ -1,73 +1,37 @@
 from tkinter import filedialog
 from PIL import Image, ImageTk
+import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-def instantiate_histogram():    
-    hist_array= []
-    
-    for i in range(0,256):
-        hist_array.append(str(i))
-        hist_array.append(0)
-    
-    hist_dct = {hist_array[i]: hist_array[i + 1] for i in range(0, len(hist_array), 2)} 
-    
-    return hist_dct
+def gerarHsv(f):
+    file_path = f
+    img = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB)
+    imgGrey = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2GRAY)
+    histGrey = cv2.calcHist([imgGrey], [0], None, [256], [0, 256])
+    plt.plot(histGrey, color='k')
+    plt.title("Tons de Cinza")
 
-def count_intensity_values(hist, img):
-    for row in img:
-        for column in row:
-            hist[str(int(column))] = hist[str(int(column))] + 1
-     
-    return hist
+    f = plt.figure()
+    # # f.add_subplot(1, 2, 1)
+    # # plt.imshow(img)
+    # f.add_subplot(1, 2, 2)
+    color = ('b', 'g', 'r')
+    for i, col in enumerate(color):
+        histr = cv2.calcHist([img], [i], None, [256], [0, 256])
+        plt.plot(histr, color=col)
+        plt.xlim([0, 256])
+        
+    plt.title("Cores")
+    # return plt
+    plt.show()
 
-def plot_hist(hist, hist2=''):
-    if hist2 != '':
-        figure, axarr = plt.subplots(1,2, figsize=(20, 10))
-        axarr[0].bar(hist.keys(), hist.values())
-        axarr[1].bar(hist2.keys(), hist2.values())
-    else:
-        plt.bar(hist.keys(), hist.values())
-        plt.xlabel("Níveis intensidade")
-        ax = plt.gca()
-        ax.axes.xaxis.set_ticks([])
-        plt.grid(True)
-        plt.show()
 
-def gerarHistograma():
+def gerarHistogramaHsv():
 
-    histogram = instantiate_histogram()
-            
     file_path = filedialog.askopenfilename(
         title="Selecione uma imagem",
         filetypes=(("Arquivos de imagem", ".png;.jpg;.jpeg;.bmp;.gif"), ("Todos os arquivos", ".*"))
     )
 
-    # Abre a imagem selecionada
-    img = Image.open(file_path)
-    
-    # Converte a imagem para tons de preto e cinza
-    img = img.convert("L")
-
-    img = np.array(img)
-
-    print(img)
-
-    histogram = count_intensity_values(histogram, img)
-
-    return histogram
-
-    # plot_hist(histogram)
-
-def gerarHsv():
-
-    return
-
-
-def gerarHistogramaHsv():
-
-    histograma = gerarHistograma()
-
-    hsv = gerarHsv()
-
-    plot_hist(histograma, hsv)
+    hsv = gerarHsv(file_path)
