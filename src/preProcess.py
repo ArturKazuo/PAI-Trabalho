@@ -114,12 +114,12 @@ def preProcess():
             []  #SCC
         ]
 
-        directory1 = "./classes/Negative"
-        directory2 = "./classes/ASCUS"
-        directory3 = "./classes/ASCH"
-        directory4 = "./classes/LSIL"
-        directory5 = "./classes/HSIL"
-        directory6 = "./classes/SCC"
+        directory1 = "../classes/Negative"
+        directory2 = "../classes/ASCUS"
+        directory3 = "../classes/ASCH"
+        directory4 = "../classes/LSIL"
+        directory5 = "../classes/HSIL"
+        directory6 = "../classes/SCC"
 
         if not os.path.exists(directory1):
             os.makedirs(directory1)
