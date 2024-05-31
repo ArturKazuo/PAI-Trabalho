@@ -24,6 +24,9 @@ class Screen_ImageVisualizer(tk.Toplevel):
         self.button_change_color =  tk.Button(self.painel_buttons)
         self.button_generate_histogram = tk.Button(self.painel_buttons)
 
+        self.painel_imagem = tk.Frame(self)
+        self.canvas_imagem = tk.Canvas(self.painel_imagem)
+        self.label_imagem = tk.Label(self.canvas_imagem)
         # ------------------------------
         #    Configurações da pagina
         # ------------------------------
@@ -36,8 +39,6 @@ class Screen_ImageVisualizer(tk.Toplevel):
         # ------------------------------
         # Label da imagem
         self.config_image(zoom=0)
-
-
 
         # Botão de zoom in
         self.button_zoom_in.config(text = "+",command=lambda: self.config_image(zoom=1))
@@ -83,24 +84,26 @@ class Screen_ImageVisualizer(tk.Toplevel):
         self.label_imagem.config(image= image_tk)
         self.label_imagem.image = image_tk
     def generate_histogram(self,image_path):
-        tela_histograma = Screen_Histograms(file_path_image = image_path)
-    
+        tela_histograma = Screen_Histograms(file_path_image = image_path) 
     def config_image(self,zoom):
-        # Criando um MainFrame
+
+        # Resetando o MainFrame da imagem
         self.painel_imagem = tk.Frame(self)
         self.painel_imagem.grid(column=0,row=0)
 
-        # Criando um Canvas
+        # Resetando o Canvas da imagem
         self.canvas_imagem = tk.Canvas(self.painel_imagem)
         self.canvas_imagem.grid(column=0,row=0)
 
-        # Add a Scrollbar
+        # Adicionando as duas scrollbars
         scrollbar_y = tk.Scrollbar(self.painel_imagem,
                                     orient="vertical",
                                     command=self.canvas_imagem.yview)
         scrollbar_y.grid(column=1,row=0,sticky="nsew")
 
-        scrollbar_x = tk.Scrollbar(self.painel_imagem, orient="horizontal", command=self.canvas_imagem.xview)
+        scrollbar_x = tk.Scrollbar(self.painel_imagem,
+                                    orient="horizontal",
+                                    command=self.canvas_imagem.xview)
         scrollbar_x.grid(column=0,row=1,sticky="nsew")
 
         # Configurando o Canvas
@@ -108,23 +111,26 @@ class Screen_ImageVisualizer(tk.Toplevel):
                                      xscrollcommand=scrollbar_x.set)
         self.canvas_imagem.bind('<Configure>',lambda e: self.canvas_imagem.configure(scrollregion= self.canvas_imagem.bbox("all")))
         
-        # Criando outro frame
+        # Resetando o Label da imagem
         self.label_imagem = tk.Label(self.canvas_imagem)
-  
+
+        # Alocando o Label da imagem no canvas
         self.canvas_imagem.create_window((0,0),window=self.label_imagem,anchor="nw")
+
+        # Conferindo a cor da imagem
         if self.is_image_colorida:
             image = self.image_colorida
         elif not self.is_image_colorida:
             image = self.image_cinza
 
+        # Ajustando o zoom
         self.zoom+=zoom
         if(self.zoom)<=0:
             self.zoom = 1
 
-        
+        # Ajustando a imagem de acordo com o zoom
         image_tk = ImageTk.PhotoImage(image.resize((self.width_image* self.zoom, self.height_image * self.zoom)
                                                     ,Image.LANCZOS))
-        
         self.label_imagem.config(image=image_tk)
         self.label_imagem.image = image_tk
 
