@@ -1,9 +1,13 @@
 import tkinter as tk
 import Screens.ScreenFacilities as SF
+from preProcess import preProcess
 
 class HomeScreen(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
+        preProcess()
         
         #------------------------------
         #   Configurações da janela

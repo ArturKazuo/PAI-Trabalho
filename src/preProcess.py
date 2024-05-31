@@ -93,11 +93,11 @@ def createSubImages(line, img):   #usado para criar subimagens e armazená-las
 
     # print(type(line[0]))
 
-    cv2.imwrite('./classes/' + classImg + "/" + line[3] + ".png", roi_rgb) #armazena a subimgem na sua classe correta
+    cv2.imwrite('../classes/' + classImg + "/" + line[3] + ".png", roi_rgb) #armazena a subimgem na sua classe correta
 
 def preProcess():
 
-    directory = "./classes"
+    directory = "../classes"
 
     # cria os diretorios para armazenamento das classes
     if not os.path.exists(directory):
@@ -136,15 +136,15 @@ def preProcess():
 
 
     #deleta todas as imagens para testar o proprocessamento corretamente, vai ser retirado para a entrega
-    delete_files_in_directory('./classes/ASCH')
-    delete_files_in_directory('./classes/ASCUS')
-    delete_files_in_directory('./classes/LSIL')
-    delete_files_in_directory('./classes/HSIL')
-    delete_files_in_directory('./classes/Negative')
-    delete_files_in_directory('./classes/SCC')
+    delete_files_in_directory('../classes/ASCH')
+    delete_files_in_directory('../classes/ASCUS')
+    delete_files_in_directory('../classes/LSIL')
+    delete_files_in_directory('../classes/HSIL')
+    delete_files_in_directory('../classes/Negative')
+    delete_files_in_directory('../classes/SCC')
     
     #abre e lê a planilha
-    file = open('classifications.csv')  
+    file = open('../database/classifications.csv')  
     content = file.readlines() 
 
     atual = ''              #atual é usado para checar se os nucleos são de uma mesma imagem ou não
@@ -163,10 +163,13 @@ def preProcess():
 
             atual = line[1]                         #muda o atual
 
-            check_file = os.path.isfile("./dataset/" + atual)   #checa para ver se o novo arquivo existe
+            # print(atual)
+
+            check_file = os.path.isfile("../database/dataset/" + atual)   #checa para ver se o novo arquivo existe
             
-            if(check_file):                                     #caso ele exista:
-                img = cv2.imread("./dataset/" + atual)          #lê a nova imagem
+            if(check_file):  
+                print(atual)                                   #caso ele exista:
+                img = cv2.imread("../database/dataset/" + atual)          #lê a nova imagem
                 createSubImages(line, img)            #chama a primeira iteração do preprocessamento
 
         elif(check_file):                                       #chama mais preprocessamento até mudar de arquivo
