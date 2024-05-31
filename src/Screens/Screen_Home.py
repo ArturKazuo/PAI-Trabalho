@@ -1,6 +1,5 @@
 import tkinter as tk
 import Screens.ScreenFacilities as SF
-from generateHistogramHSV import gerarHistogramaHsv
 
 class HomeScreen(tk.Tk):
     def __init__(self, *args, **kwargs):

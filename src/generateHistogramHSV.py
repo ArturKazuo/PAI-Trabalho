@@ -49,31 +49,3 @@ def gerarHsv(f, options):
 
     # return plt
     plt.show()
-
-
-def gerarHistogramaHsv(self):
-
-    file_path = filedialog.askopenfilename(
-        title="Selecione uma imagem",
-        filetypes=(("Arquivos de imagem", ".png;.jpg;.jpeg;.bmp;.gif"), ("Todos os arquivos", ".*"))
-    )
-
-    janela = Toplevel(self)
-
-    janela.geometry("400x300")
-
-    SF.centerWindow(janela)
-
-    button16Tons = tk.Button(janela, text="Gerar histograma com 16 tons de cinza", command= lambda: gerarCinza(file_path, 16))
-    button16Tons.pack(pady=10)
-    
-    buttonFull = tk.Button(janela, text="Gerar histograma com 256 tons de cinza", command= lambda: gerarCinza(file_path, 256))
-    buttonFull.pack(pady=10)
-
-    buttonHSV = tk.Button(janela, text="Gerar histograma de cores no espaço HSV", command= lambda: gerarHsv(file_path, 0))
-    buttonHSV.pack(pady=10)
-    
-    buttonHSV16 = tk.Button(janela, text="Gerar histograma de cores no espaço HSV (H=16 | V=8)", command= lambda: gerarHsv(file_path, 1))
-    buttonHSV16.pack(pady=10)
-
-    # hsv = gerarHsv(file_path)
