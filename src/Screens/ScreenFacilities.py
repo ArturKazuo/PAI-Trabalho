@@ -11,11 +11,8 @@ def open_file():
     )
     
     if file_path:
-        # Abre a imagem selecionada
-        img = Image.open(file_path)
-
         # Usa a função auxiliar para criar uma nova janela e exibir a imagem
-        imagem_tela = Screen_ImageVisualizer(image = img)
+        tela_imagem = Screen_ImageVisualizer(file_path_image = file_path)
        
         
 def centerWindow(window):

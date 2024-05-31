@@ -27,8 +27,7 @@ class HomeScreen(tk.Tk):
         buttonOpenImageWindow = tk.Button(self, text="Selecionar imagem para visualizar", command=lambda: SF.open_file())
         buttonOpenImageWindow.pack(pady=10)
 
-        buttonOpenHistogram = tk.Button(self, text="Selecionar imagem para gerar o histograma",  command=lambda: gerarHistogramaHsv(self))
-        buttonOpenHistogram.pack(pady=10)
+
         
        
 
