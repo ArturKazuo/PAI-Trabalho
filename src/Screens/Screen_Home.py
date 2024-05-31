@@ -7,7 +7,7 @@ class HomeScreen(tk.Tk):
         super().__init__(*args, **kwargs)
 
 
-        preProcess()
+        #preProcess()
         
         #------------------------------
         #   Configurações da janela
