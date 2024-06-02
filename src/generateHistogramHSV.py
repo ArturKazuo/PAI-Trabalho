@@ -11,7 +11,7 @@ def gerarCinza(f, greyTones):
     # img = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB)
     imgGrey = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2GRAY)
     histGrey = cv2.calcHist([imgGrey], [0], None, [greyTones], [0, 256])
-    # print(histGrey)
+    # print(histGrey)   
     plt.plot(histGrey, color='k')
     plt.title("Tons de Cinza")  
     plt.show() 

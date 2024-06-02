@@ -2,6 +2,7 @@ import tkinter as tk
 import Screens.ScreenFacilities as SF
 from PIL import Image , ImageTk
 from Screens.Screen_Histograms import Screen_Histograms
+from haralick import extract_glcm
 
 class Screen_ImageVisualizer(tk.Toplevel):
     def __init__(self, master=None,file_path_image=None):
@@ -23,10 +24,13 @@ class Screen_ImageVisualizer(tk.Toplevel):
         self.button_zoom_out = tk.Button(self.painel_buttons)
         self.button_change_color =  tk.Button(self.painel_buttons)
         self.button_generate_histogram = tk.Button(self.painel_buttons)
+        self.button_generate_haralick = tk.Button(self.painel_buttons)
 
+        self.geometry("700x500")
         self.painel_imagem = tk.Frame(self)
         self.canvas_imagem = tk.Canvas(self.painel_imagem)
         self.label_imagem = tk.Label(self.canvas_imagem)
+
         # ------------------------------
         #    Configurações da pagina
         # ------------------------------
@@ -53,6 +57,9 @@ class Screen_ImageVisualizer(tk.Toplevel):
         # Botão para gerar o histograma
         self.button_generate_histogram.config(text = "Gerar Histogramas",command=lambda: self.generate_histogram(image_path = file_path_image))
 
+        #
+        self.button_generate_haralick.config(text = "Calcular descritores de Haralick",command=lambda: self.generate_haralick(image_path = file_path_image))
+
         # ------------------------------
         #    Posicionamento dos Widgets
         # ------------------------------
@@ -62,6 +69,7 @@ class Screen_ImageVisualizer(tk.Toplevel):
         self.button_zoom_out.grid(column=1,row=0)
         self.button_change_color.grid(column=0,row=1,pady=20,columnspan=2)
         self.button_generate_histogram.grid(column=0,row=2,pady=20,columnspan=2)
+        self.button_generate_haralick.grid(column=0,row=3,pady=20,columnspan=2)
 
         
 
@@ -84,15 +92,33 @@ class Screen_ImageVisualizer(tk.Toplevel):
         self.label_imagem.config(image= image_tk)
         self.label_imagem.image = image_tk
     def generate_histogram(self,image_path):
-        tela_histograma = Screen_Histograms(file_path_image = image_path) 
+        tela_histograma = Screen_Histograms(file_path_image = image_path)
+
+    def generate_haralick(self,image_path):
+        # haralick_features(file_path_image = image_path)
+        features = extract_glcm(image_path, distances=[5], angles=[0])
+
+        self.show_haralick = tk.Toplevel() 
+        # self.geometry("400x300")
+
+        #insere todas as informações em uma caixa de texto para ser mostrada ao usuário
+        text_box = tk.Text(self.show_haralick)
+        text_box.pack()
+        text_box.insert(tk.END, "Contraste: " + str(features[0][0]) + "\nHomogeneidade: " + str(features[0][1]) + "\nEntropia: " + str(features[1]))
+
+
+        SF.centerWindow(self.show_haralick)
+
+        # print(features)
+
     def config_image(self,zoom):
 
         # Resetando o MainFrame da imagem
-        self.painel_imagem = tk.Frame(self)
+        self.painel_imagem = tk.Frame(self,  width=500, height=400)
         self.painel_imagem.grid(column=0,row=0)
 
         # Resetando o Canvas da imagem
-        self.canvas_imagem = tk.Canvas(self.painel_imagem)
+        self.canvas_imagem = tk.Canvas(self.painel_imagem,  width=500, height=400)
         self.canvas_imagem.grid(column=0,row=0)
 
         # Adicionando as duas scrollbars
