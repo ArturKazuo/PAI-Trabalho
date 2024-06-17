@@ -24,12 +24,12 @@ from preProcess import delete_files_in_directory, preProcess
 
 #divisão de imagens em conjuntos de treino e teste
 
-delete_files_in_directory('../classes/ASCH')
-delete_files_in_directory('../classes/ASCUS')
-delete_files_in_directory('../classes/LSIL')
-delete_files_in_directory('../classes/HSIL')
-delete_files_in_directory('../classes/Negative')
-delete_files_in_directory('../classes/SCC')
+# delete_files_in_directory('../classes/ASCH')
+# delete_files_in_directory('../classes/ASCUS')
+# delete_files_in_directory('../classes/LSIL')
+# delete_files_in_directory('../classes/HSIL')
+# delete_files_in_directory('../classes/Negative')
+# delete_files_in_directory('../classes/SCC')
 
 # preProcess()
 
