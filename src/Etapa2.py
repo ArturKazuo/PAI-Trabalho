@@ -7,7 +7,6 @@
 # O classificador: XGBoost
 
 # O classificador profundo: EfficientNet
-
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -18,10 +17,9 @@ from skimage import io, color
 import os
 import shutil
 import xgboost as xgb
-
-
 from preProcess import delete_files_in_directory, preProcess
 
+caminho_classes = "../classes/"
 #divisão de imagens em conjuntos de treino e teste
 
 # delete_files_in_directory('../classes/ASCH')
@@ -36,9 +34,9 @@ from preProcess import delete_files_in_directory, preProcess
 def dividirImagens(className):
 
     # Definir diretórios
-    source_dir = '../classes/' + className
-    train_dir = '../classes/' + className + '/train'
-    test_dir = '../classes/' + className + '/test'
+    source_dir = caminho_classes + className
+    train_dir = caminho_classes + className + '/train'
+    test_dir = caminho_classes + className + '/test'
 
     # Criar os diretórios de destino se não existirem
     os.makedirs(train_dir, exist_ok=True)
