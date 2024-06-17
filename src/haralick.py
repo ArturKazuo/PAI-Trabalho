@@ -6,7 +6,7 @@ import csv
 import numpy as np
 from skimage import feature
 from skimage import io, color, img_as_ubyte
-from sklearn.metrics.cluster import entropy
+#from sklearn.metrics.cluster import entropy
 from skimage.measure import shannon_entropy
 
 

@@ -4,74 +4,72 @@ from PIL import Image , ImageTk
 from hu import calculate_hu_moments
 import cv2
 import numpy as np
+import tkinter.font as tkfont
 
 class Screen_Hu(tk.Toplevel):
-    def __init__(self, master=None,file_path_image=None):
+    def __init__(self, master=None):
         super().__init__(master)
-
+        
         # ------------------------------
         #    Declaraçao de Variaveis
         # ------------------------------
-        self.label_hu1 = tk.Label(self)
-        self.label_hu2 = tk.Label(self)
-        self.label_hu3 = tk.Label(self)
-        self.label_hu4 = tk.Label(self)
-        self.label_hu5 = tk.Label(self)
-        self.label_hu6 = tk.Label(self)
-        self.label_hu7 = tk.Label(self)
+        self.labels_hu = []
+        for i in range(7):
+            label = tk.Label(self)
+            self.labels_hu.append(label)
         #------------------------------
         #   Configurações da janela
         #------------------------------
 
         self.title("Invariantes de Hu")
-        self.geometry("400x300")
+        self.geometry("500x300")
+        SF.centerWindow(self)
         
         #------------------------------
         #        Componentes
         #------------------------------
         
         # Adiciona botões para calcular os momentos invariantes de Hu
-        button_hu_gray = tk.Button(self, text="Momentos invariantes de Hu em tons de cinza", command=lambda: exibir_hu_moments_gray(file_path_image,tela = self) ,width=20, height=3,wraplength=100)
-        button_hu_gray.pack(pady=10,anchor="center")
-        button_hu_RGB = tk.Button(self, text="Momentos invariantes de Hu em canais de cor", command=lambda: exibir_hu_moments_RGB(file_path_image,tela = self),width=20, height=3,wraplength=100)
+
+        button_hu_RGB = tk.Button(self, text="Trocar imagem", command=lambda: escolher_imagem(tela = self),width=20, height=3,wraplength=100)
         button_hu_RGB.pack(pady=10,anchor="center")
-        self.label_hu1.pack()
-        self.label_hu2.pack()
-        self.label_hu3.pack()
-        self.label_hu4.pack() 
-        self.label_hu5.pack()
-        self.label_hu6.pack()
-        self.label_hu7.pack()
+        titulo = tk.Label(self,text="MOMENTOS INVARIANTES DE HU",font= tk.font.Font(family="Helvetica", size=14, weight="bold"))
+        titulo.pack()
+        for i in range(7):
+            self.labels_hu[i].pack()
         
 
+        
 
-def exibir_hu_moments_gray(image_path,tela = None):
+def exibir_hu_moments(image_path,tela = None):
+    # Carregar a imagem
     image = cv2.imread(image_path)
-    hu_moments = calculate_hu_moments(image)
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    tela.label_hu1.configure(text="Momento 1: " + str("{:.12f}".format(hu_moments[0])))
-    tela.label_hu2.configure(text="Momento 2: " + str("{:.12f}".format(hu_moments[1])))
-    tela.label_hu3.configure(text="Momento 3: " + str("{:.12f}".format(hu_moments[2])))
-    tela.label_hu4.configure(text="Momento 4: " + str("{:.12f}".format(hu_moments[3])))
-    tela.label_hu5.configure(text="Momento 5: " + str("{:.12f}".format(hu_moments[4])))
-    tela.label_hu6.configure(text="Momento 6: " + str("{:.12f}".format(hu_moments[5])))
-    tela.label_hu7.configure(text="Momento 7: " + str("{:.12f}".format(hu_moments[6])))
+    # Converter a imagem para o modelo HSV
+    hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    h_channel, s_channel, v_channel = cv2.split(hsv_image)
 
-def exibir_hu_moments_RGB(image_path,tela = None):
-    image = cv2.imread(image_path)
-    b, g, r = cv2.split(image)
-    hu_moments_b = calculate_hu_moments(cv2.merge([b, b, b]))
-    hu_moments_g = calculate_hu_moments(cv2.merge([g, g, g]))
-    hu_moments_r = calculate_hu_moments(cv2.merge([r, r, r]))
+    # Calcular os momentos invariantes de Hu
+    hu_moments_gray = calculate_hu_moments(gray_image)
+    hu_moments_h = calculate_hu_moments(h_channel)
+    hu_moments_s = calculate_hu_moments(s_channel)
+    hu_moments_v = calculate_hu_moments(v_channel)
     
-    tela.label_hu1.configure(text="Momento 1: R:"+str("{:.5f}".format(hu_moments_r[0])) + "  G:"+str("{:.5f}".format(hu_moments_g[0]))+"  B:"+str("{:.5f}".format(hu_moments_b[0])))
-    tela.label_hu2.configure(text="Momento 2: R:"+str("{:.5f}".format(hu_moments_r[1])) + "  G:"+str("{:.5f}".format(hu_moments_g[1]))+"  B:"+str("{:.5f}".format(hu_moments_b[1])))
-    tela.label_hu3.configure(text="Momento 3: R:"+str("{:.5f}".format(hu_moments_r[2])) + "  G:"+str("{:.5f}".format(hu_moments_g[2]))+"  B:"+str("{:.5f}".format(hu_moments_b[2])))
-    tela.label_hu4.configure(text="Momento 4: R:"+str("{:.5f}".format(hu_moments_r[3])) + "  G:"+str("{:.5f}".format(hu_moments_g[3]))+"  B:"+str("{:.5f}".format(hu_moments_b[3])))
-    tela.label_hu5.configure(text="Momento 5: R:"+str("{:.5f}".format(hu_moments_r[4])) + "  G:"+str("{:.5f}".format(hu_moments_g[4]))+"  B:"+str("{:.5f}".format(hu_moments_b[4])))
-    tela.label_hu6.configure(text="Momento 6: R:"+str("{:.5f}".format(hu_moments_r[5])) + "  G:"+str("{:.5f}".format(hu_moments_g[5]))+"  B:"+str("{:.5f}".format(hu_moments_b[5])))
-    tela.label_hu7.configure(text="Momento 7: R:"+str("{:.5f}".format(hu_moments_r[6])) + "  G:"+str("{:.5f}".format(hu_moments_g[6]))+"  B:"+str("{:.5f}".format(hu_moments_b[6])))
-
-        
+    for i in range(7):
+        tela.labels_hu[i].configure(text="Momento"+ str(i+1) +  ": Cinza:"
+                                    + str("{:.10f}".format(hu_moments_gray[i]))
+                                    + " H: "
+                                    + str("{:.10f}".format(hu_moments_h[i]))
+                                    + " S: "
+                                    + str("{:.10f}".format(hu_moments_s[i])) 
+                                    + " V: "
+                                    + str("{:.10f}".format(hu_moments_v[i])) )
+def escolher_imagem(tela):
+    file_path = tk.filedialog.askopenfilename(
+        title="Selecione uma imagem",
+        filetypes=(("Arquivos de imagem", ".png;.jpg;.jpeg;.bmp;.gif"), ("Todos os arquivos", ".*"))
+    )
+    exibir_hu_moments(file_path,tela=tela)
        
 

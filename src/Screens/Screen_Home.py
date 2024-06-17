@@ -34,11 +34,8 @@ class HomeScreen(tk.Tk):
         buttonOpenHu.pack(pady=10)
 
 def abrir_hu():
-    file_path = tk.filedialog.askopenfilename(
-        title="Selecione uma imagem",
-        filetypes=(("Arquivos de imagem", ".png;.jpg;.jpeg;.bmp;.gif"), ("Todos os arquivos", ".*"))
-    )
-    tela_imagem = Screen_Hu(file_path_image = file_path)
+    
+    tela_imagem = Screen_Hu()
 
 
 
