@@ -1,5 +1,6 @@
 import tkinter as tk
 import Screens.ScreenFacilities as SF
+from Screens.Screen_Hu import Screen_Hu
 from preProcess import preProcess
 
 class HomeScreen(tk.Tk):
@@ -29,6 +30,17 @@ class HomeScreen(tk.Tk):
         # Adiciona um botão à janela principal para selecionar uma imagem
         buttonOpenImageWindow = tk.Button(self, text="Selecionar imagem para visualizar", command=lambda: SF.open_file())
         buttonOpenImageWindow.pack(pady=10)
+        buttonOpenHu = tk.Button(self, text="Invariantes de Hu", command=lambda: abrir_hu())
+        buttonOpenHu.pack(pady=10)
+
+def abrir_hu():
+    file_path = tk.filedialog.askopenfilename(
+        title="Selecione uma imagem",
+        filetypes=(("Arquivos de imagem", ".png;.jpg;.jpeg;.bmp;.gif"), ("Todos os arquivos", ".*"))
+    )
+    tela_imagem = Screen_Hu(file_path_image = file_path)
+
+
 
 
         
