@@ -3,6 +3,8 @@ from preProcess import preProcess
 
 preProcess()
 
+
+#preProcess()
 janela = HomeScreen()
 janela.mainloop()
 
